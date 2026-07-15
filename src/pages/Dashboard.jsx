@@ -1,5 +1,21 @@
 function Dashboard() {
-  return <h1>Dashboard</h1>;
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-100">
+
+      <div className="bg-white shadow-xl rounded-xl p-10">
+
+        <h1 className="text-4xl font-bold text-indigo-700">
+          Welcome to NexusERP AI 🚀
+        </h1>
+
+        <p className="mt-4 text-gray-600">
+          Login Successful
+        </p>
+
+      </div>
+
+    </div>
+  );
 }
 
 export default Dashboard;
