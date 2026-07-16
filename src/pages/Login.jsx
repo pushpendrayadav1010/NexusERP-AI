@@ -1,141 +1,187 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaEnvelope,
+  FaLock,
+} from "react-icons/fa";
 
 function Login() {
-  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    if (email.trim() === "") {
-      toast.error("Please enter your email");
+    if (!email || !password) {
+      setError("Please fill in all fields.");
       return;
     }
 
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
-      return;
-    }
-
+    setError("");
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
-
-      toast.success("Login Successful 🎉");
-
+      localStorage.setItem("isLoggedIn", "true");
       navigate("/dashboard");
+      alert("Login Successful!");
     }, 2000);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-600 to-blue-500 px-4">
+    <div className="min-h-screen flex bg-slate-950">
 
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+      {/* Left Side */}
 
-        {/* Logo */}
-        <div className="text-center mb-6">
+      <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-violet-700 to-indigo-900 items-center justify-center">
 
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-            alt="logo"
-            className="w-20 mx-auto mb-4"
-          />
+        <div className="text-center text-white px-10">
 
-          <h1 className="text-3xl font-bold text-indigo-700">
+          <h1 className="text-7xl font-bold">
             NexusERP AI
           </h1>
 
-          <p className="text-gray-500 mt-2">
-            Welcome Back 👋
+          <p className="mt-4 text-2xl text-gray-200">
+            Smart Business Management Platform
+          </p>
+
+          <p className="mt-3 text-lg text-gray-300 max-w-xl mx-auto">
+            Manage HR, Inventory, Finance, Sales,
+            CRM and Reports from one dashboard.
           </p>
 
         </div>
 
-        {/* Email */}
+      </div>
 
-        <div className="mb-4">
+      {/* Right Side */}
 
-          <label className="block mb-2 font-semibold">
-            Email
-          </label>
+      <div className="flex-1 flex justify-center items-center p-8">
 
-          <input
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 outline-none"
-          />
+        <div className="w-full max-w-lg bg-slate-1900 rounded-3xl shadow-2xl p-10">
 
-        </div>
+          <h2 className="text-5xl font-bold text-white">
+            Welcome Back
+          </h2>
 
-        {/* Password */}
+          <p className="text-gray-400 mt-2 text-lg">
+            Login to your ERP account
+          </p>
 
-        <div className="mb-3">
+          {/* Email */}
 
-          <label className="block mb-2 font-semibold">
-            Password
-          </label>
+          <div className="mt-8">
 
-          <div className="relative">
+            <label className="block text-gray-300 mb-2 ml-10">
+              Email Address
+            </label>
 
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border rounded-lg p-3 pr-16 focus:ring-2 focus:ring-indigo-500 outline-none"
-            />
+            <div className="flex items-center gap-3">
 
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-3 text-indigo-600 font-semibold"
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
+              <div className="w-8 flex justify-center">
+                <FaEnvelope className="text-gray-400 text-xl" />
+              </div>
+
+              <input
+                type="email"
+                placeholder="john@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 h-14 rounded-xl bg-slate-800 border border-slate-700 px-4 text-white outline-none focus:border-violet-500"
+              />
+
+            </div>
 
           </div>
 
+          {/* Password */}
+
+          <div className="mt-6">
+
+            <label className="block text-gray-300 mb-2 ml-10">
+              Password
+            </label>
+
+            <div className="flex items-center gap-3">
+
+              <div className="w-8 flex justify-center">
+                <FaLock className="text-gray-400 text-xl" />
+              </div>
+
+              <div className="relative flex-1">
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full h-14 rounded-xl bg-slate-800 border border-slate-700 px-4 pr-12 text-white outline-none focus:border-violet-500"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+                    {/* Remember Me */}
+
+          <div className="flex justify-between items-center mt-6">
+
+            <label className="flex items-center gap-2 text-gray-300 cursor-pointer">
+
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
+                className="accent-violet-600"
+              />
+
+              Remember Me
+
+            </label>
+
+            <a
+              href="#"
+              className="text-violet-400 hover:text-violet-300"
+            >
+              Forgot Password?
+            </a>
+
+          </div>
+
+          {/* Error */}
+
+          {error && (
+            <div className="mt-5 bg-red-500/20 border border-red-500 rounded-xl p-3 text-red-300">
+              {error}
+            </div>
+          )}
+
+          {/* Login Button */}
+
+          <button
+            onClick={handleLogin}
+            className="w-full mt-8 h-14 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 transition text-white font-bold text-lg"
+          >
+            {loading ? "Signing In..." : "Login"}
+          </button>
+
         </div>
-
-        {/* Remember */}
-
-        <div className="flex justify-between items-center mb-6">
-
-          <label className="flex items-center gap-2">
-
-            <input
-              type="checkbox"
-              checked={remember}
-              onChange={() => setRemember(!remember)}
-            />
-
-            Remember Me
-
-          </label>
-
-          <a href="#" className="text-indigo-600 hover:underline">
-            Forgot Password?
-          </a>
-
-        </div>
-
-        {/* Button */}
-
-        <button
-          onClick={handleLogin}
-          disabled={loading}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 transition text-white py-3 rounded-lg font-semibold"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
 
       </div>
 

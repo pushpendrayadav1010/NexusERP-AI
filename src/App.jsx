@@ -1,22 +1,7 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
-
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-    <BrowserRouter>
-
-      <Toaster position="top-right" />
-
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-
-    </BrowserRouter>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
